@@ -1,4 +1,4 @@
-// Import mongoose to define schema and model
+// Import mongoose to define schema and models
 const mongoose = require('mongoose');
 
 // Define the schema (structure) for a Contact document
