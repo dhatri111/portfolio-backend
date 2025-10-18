@@ -7,9 +7,8 @@ const router = express.Router();
 // Import the Project controller to handle route logic
 const controller = require('../controllers/projectController');
 
-// ------------------------------
+
 // Define all Project API routes
-// ------------------------------
 
 // GET all projects
 // URL: /api/projects

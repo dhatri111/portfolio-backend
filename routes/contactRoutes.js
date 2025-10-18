@@ -7,10 +7,8 @@ const router = express.Router();
 // Import the Contact controller to handle logic
 const contactController = require('../controllers/contactController');
 
-// ------------------------------
-// Define all Contact API routes
-// ------------------------------
 
+// Define all Contact API routes
 // GET all contacts
 // URL: /api/contacts
 router.get('/', contactController.getAllContacts);

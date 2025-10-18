@@ -14,9 +14,9 @@ const {
   deleteAllServices
 } = require('../controllers/serviceController');
 
-// ------------------------------
+
 // Define all Service API routes
-// ------------------------------
+
 
 // GET all services
 // URL: /api/services
