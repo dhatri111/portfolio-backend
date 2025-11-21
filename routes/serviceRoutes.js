@@ -29,6 +29,7 @@ router.get('/:id', getServiceById);
 // CREATE a new service
 // URL: /api/services
 router.post('/', addService);
+ <Route path="/services/new" element={<ServiceForm />} />
 
 // UPDATE an existing service by ID
 // URL: /api/services/:id
