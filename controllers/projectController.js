@@ -1,3 +1,4 @@
+
 const Project = require('../models/projectModel');
 
 // GET all projects

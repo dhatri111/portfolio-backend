@@ -40,7 +40,7 @@ app.use((err, req, res, next) => {
 });
 
 //  DATABASE CONNECTION
-mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(process.env.MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => {
     console.log('Connected to MongoDB');
     app.listen(process.env.PORT, () => {
