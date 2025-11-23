@@ -16,7 +16,10 @@ const userRouter = require('./routes/userRoutes');
 const app = express();
 
 // MIDDLEWARES 
-app.use(cors());            // Enable Cross-Origin Resource Sharing
+app.use(cors({
+  origin: ["http://localhost:5173", "https://your-netlify-domain.netlify.app"],
+  credentials: true
+}));           // Enable Cross-Origin Resource Sharing
 app.use(morgan('dev'));     // Log HTTP requests in console
 app.use(express.json());    // Parse JSON request bodies
 
