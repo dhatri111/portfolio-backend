@@ -17,7 +17,7 @@ const app = express();
 
 // MIDDLEWARES 
 app.use(cors({
-  origin: ["http://localhost:5173", "https://your-netlify-domain.netlify.app"],
+  origin: ["http://localhost:5173","https://statuesque-cobbler-307fc4.netlify.app"],
   credentials: true
 }));           // Enable Cross-Origin Resource Sharing
 app.use(morgan('dev'));     // Log HTTP requests in console
