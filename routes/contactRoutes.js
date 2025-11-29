@@ -1,37 +1,16 @@
-// Import Express framework
 const express = require('express');
-
-// Create a new router instance
 const router = express.Router();
+const controller = require('../controllers/contactController');
+const auth = require('../middleware/authMiddleware');
 
-// Import the Contact controller to handle logic
-const contactController = require('../controllers/contactController');
+// PUBLIC
+router.get('/', controller.getAllContacts);
+router.get('/:id', controller.getContactById);
 
+// PROTECTED
+router.post('/', auth, controller.createContact);
+router.put('/:id', auth, controller.updateContact);
+router.delete('/:id', auth, controller.deleteContact);
+router.delete('/', auth, controller.deleteAllContacts);
 
-// Define all Contact API routes
-// GET all contacts
-// URL: /api/contacts
-router.get('/', contactController.getAllContacts);
-
-// GET a single contact by ID
-// URL: /api/contacts/:id
-router.get('/:id', contactController.getContactById);
-
-// CREATE a new contact
-// URL: /api/contacts
-router.post('/', contactController.createContact);
-
-// UPDATE an existing contact by ID
-// URL: /api/contacts/:id
-router.put('/:id', contactController.updateContact);
-
-// DELETE a contact by ID
-// URL: /api/contacts/:id
-router.delete('/:id', contactController.deleteContact);
-
-// DELETE all contacts
-// URL: /api/contacts
-router.delete('/', contactController.deleteAllContacts);
-
-// Export the router to use in server.js
 module.exports = router;
