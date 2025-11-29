@@ -1,16 +1,16 @@
 const express = require('express');
 const router = express.Router();
-const controller = require('../controllers/contactController');
+const contactController = require('../controllers/contactController');
 const auth = require('../middleware/authMiddleware');
 
 // PUBLIC
-router.get('/', controller.getAllContacts);
-router.get('/:id', controller.getContactById);
+router.get('/', contactController.getAllContacts);
+router.get('/:id', contactController.getContactById);
 
 // PROTECTED
-router.post('/', auth, controller.createContact);
-router.put('/:id', auth, controller.updateContact);
-router.delete('/:id', auth, controller.deleteContact);
-router.delete('/', auth, controller.deleteAllContacts);
+router.post('/', auth, contactController.createContact);
+router.put('/:id', auth, contactController.updateContact);
+router.delete('/:id', auth, contactController.deleteContact);
+router.delete('/', auth, contactController.deleteAllContacts);
 
 module.exports = router;

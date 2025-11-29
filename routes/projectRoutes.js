@@ -1,16 +1,16 @@
 const express = require('express');
 const router = express.Router();
-const controller = require('../controllers/projectController');
+const projectController = require('../controllers/projectController');
 const auth = require('../middleware/authMiddleware');
 
 // PUBLIC
-router.get('/', controller.getAllProjects);
-router.get('/:id', controller.getProjectById);
+router.get('/', projectController.getAllProjects);
+router.get('/:id', projectController.getProjectById);
 
 // PROTECTED
-router.post('/', auth, controller.createProject);
-router.put('/:id', auth, controller.updateProject);
-router.delete('/:id', auth, controller.deleteProject);
-router.delete('/', auth, controller.deleteAllProjects);
+router.post('/', auth, projectController.createProject);
+router.put('/:id', auth, projectController.updateProject);
+router.delete('/:id', auth, projectController.deleteProject);
+router.delete('/', auth, projectController.deleteAllProjects);
 
 module.exports = router;
