@@ -5,7 +5,6 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const morgan = require('morgan');
 const createError = require('http-errors');
-const authRouter = require('./routes/authRoutes');
 require('dotenv').config(); // Load environment variables
 
 // Import Routers
@@ -34,7 +33,6 @@ app.use('/api/contacts', contactRouter);
 app.use('/api/projects', projectRouter);
 app.use('/api/services', serviceRouter);
 app.use('/api/users', userRouter);
-app.use('/api/auth', authRouter);
 
 // 404 HANDLER
 app.use((req, res, next) => next(createError(404, 'Not Found')));
