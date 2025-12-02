@@ -1,61 +1,100 @@
+// Import the Contact model
 const Contact = require('../models/contactModel');
 
-// PUBLIC
+// GET all contacts
 exports.getAllContacts = async (req, res) => {
     try {
         const contacts = await Contact.find();
-        if (contacts.length === 0) return res.status(404).json({ success: false, message: "No contacts found" });
-        res.json({ success: true, data: contacts });
+
+        // If database has no contacts
+        if (contacts.length === 0) {
+            return res.status(404).json({ message: "No contacts found in the database" });
+        }
+
+        // Return all contacts
+        res.json(contacts);
     } catch (err) {
-        res.status(500).json({ success: false, message: err.message });
+        res.status(500).json({ message: "Server error: " + err.message });
     }
 };
 
+
+// GET a single contact by ID
 exports.getContactById = async (req, res) => {
     try {
         const contact = await Contact.findById(req.params.id);
-        if (!contact) return res.status(404).json({ success: false, message: "Contact not found" });
-        res.json({ success: true, data: contact });
+
+        // If contact not found
+        if (!contact) {
+            return res.status(404).json({ message: `Contact not found with ID: ${req.params.id}` });
+        }
+
+        res.json(contact);
     } catch (err) {
-        res.status(500).json({ success: false, message: err.message });
+        // Handle invalid MongoDB ObjectId or server errors
+        if (err.kind === "ObjectId") {
+            return res.status(400).json({ message: "Invalid contact ID format" });
+        }
+        res.status(500).json({ message: "Server error: " + err.message });
     }
 };
 
-// PROTECTED
+
+// CREATE a new contact
 exports.createContact = async (req, res) => {
     try {
-        const contact = await Contact.create(req.body);
-        res.status(201).json({ success: true, message: "Contact created successfully", data: contact });
+        const contact = new Contact(req.body);
+        await contact.save();
+        res.status(201).json({ message: "Contact created successfully", contact });
     } catch (err) {
-        res.status(400).json({ success: false, message: err.message });
+        res.status(400).json({ message: "Failed to create contact: " + err.message });
     }
 };
 
+
+// UPDATE a contact by ID
 exports.updateContact = async (req, res) => {
     try {
         const contact = await Contact.findByIdAndUpdate(req.params.id, req.body, { new: true });
-        if (!contact) return res.status(404).json({ success: false, message: "Contact not found" });
-        res.json({ success: true, message: "Contact updated successfully", data: contact });
+
+        if (!contact) {
+            return res.status(404).json({ message: `No contact found to update with ID: ${req.params.id}` });
+        }
+
+        res.json({ message: "Contact updated successfully", contact });
     } catch (err) {
-        res.status(500).json({ success: false, message: err.message });
+        res.status(400).json({ message: "Failed to update contact: " + err.message });
     }
 };
 
+
+// DELETE a single contact by ID
 exports.deleteContact = async (req, res) => {
     try {
         const contact = await Contact.findByIdAndDelete(req.params.id);
-        if (!contact) return res.status(404).json({ success: false, message: "Contact not found" });
-        res.json({ success: true, message: "Contact deleted successfully" });
+
+        if (!contact) {
+            return res.status(404).json({ message: `No contact found to delete with ID: ${req.params.id}` });
+        }
+
+        res.json({ message: "Contact deleted successfully" });
     } catch (err) {
-        res.status(500).json({ success: false, message: err.message });
+        res.status(500).json({ message: "Failed to delete contact: " + err.message });
     }
 };
 
+
+// DELETE all contacts
 exports.deleteAllContacts = async (req, res) => {
     try {
-        await Contact.deleteMany();
-        res.json({ success: true, message: "All contacts deleted successfully" });
+        const result = await Contact.deleteMany();
+
+        if (result.deletedCount === 0) {
+            return res.status(404).json({ message: "No contacts found to delete" });
+        }
+
+        res.json({ message: "All contacts deleted successfully" });
     } catch (err) {
-        res.status(500).json({ success: false, message: err.message });
+        res.status(500).json({ message: "Failed to delete all contacts: " + err.message });
     }
 };

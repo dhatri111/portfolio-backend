@@ -1,20 +1,16 @@
 const express = require('express');
 const router = express.Router();
-const userController = require('../controllers/userController');
+const controller = require('../controllers/userController');
 const auth = require('../middleware/authMiddleware');
 
-// PUBLIC AUTH
-router.post('/signup', userController.signup);
-router.post('/signin', userController.signin);
+// PUBLIC
+router.get('/', controller.getAllUsers);
+router.get('/:id', controller.getUserById);
+router.post('/', controller.addUser);
 
-// PUBLIC CRUD
-router.get('/', userController.getAllUsers);
-router.get('/:id', userController.getUserById);
-router.post('/', userController.addUser);
-
-// PROTECTED CRUD (only edit/delete require auth)
-router.put('/:id', auth, userController.updateUser);
-router.delete('/:id', auth, userController.deleteUser);
-router.delete('/', auth, userController.deleteAllUsers);
+// PROTECTED
+router.put('/:id', auth, controller.updateUser);
+router.delete('/:id', auth, controller.deleteUser);
+router.delete('/', auth, controller.deleteAllUsers);
 
 module.exports = router;
