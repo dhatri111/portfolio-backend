@@ -18,7 +18,7 @@ const app = express();
 
 // MIDDLEWARES 
 app.use(cors({
-  origin: ["http://localhost:5173","https://statuesque-cobbler-307fc4.netlify.app"],
+  origin: ["http://localhost:5173","https://bright-conkies-96f521.netlify.app/users"],
   credentials: true
 }));
 app.use(morgan('dev'));     // Log HTTP requests in console
