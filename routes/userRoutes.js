@@ -7,10 +7,11 @@ const authenticateToken = require('../middleware/authMiddleware');
 // Public routes
 router.get('/', userController.getAllUsers);
 router.get('/:id', userController.getUserById);
+router.post('/', userController.addUser); 
 
 
 // Protected routes - only edit and delete require authentication
-router.post('/', authenticateToken, userController.addUser); 
+
 router.put('/:id', authenticateToken, userController.updateUser);
 router.delete('/:id', authenticateToken, userController.deleteUser);
 router.delete('/', authenticateToken, userController.deleteAllUsers);
