@@ -1,5 +1,5 @@
-//This is the entry point for the Portfolio backend.
-//It sets up Express, connects to MongoDB, and registers all routes.
+// This is the entry point for the Portfolio backend.
+// It sets up Express, connects to MongoDB, and registers all routes.
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
@@ -12,6 +12,7 @@ const contactRouter = require('./routes/contactRoutes');
 const projectRouter = require('./routes/projectRoutes');
 const serviceRouter = require('./routes/serviceRoutes');
 const userRouter = require('./routes/userRoutes');
+const authRouter = require('./routes/authRoutes'); // NEW: Auth routes
 
 const app = express();
 
@@ -19,16 +20,17 @@ const app = express();
 app.use(cors({
   origin: ["http://localhost:5173","https://statuesque-cobbler-307fc4.netlify.app"],
   credentials: true
-}));           // Enable Cross-Origin Resource Sharing
+}));
 app.use(morgan('dev'));     // Log HTTP requests in console
 app.use(express.json());    // Parse JSON request bodies
 
-//  ROOT ENDPOINT
+// ROOT ENDPOINT
 app.get('/', (req, res) => {
   res.json({ message: 'Welcome to My Portfolio Application. Server is running on port 5000.' });
 });
 
 // API ROUTES 
+app.use('/api/auth', authRouter);         // NEW: Authentication routes
 app.use('/api/contacts', contactRouter);
 app.use('/api/projects', projectRouter);
 app.use('/api/services', serviceRouter);
@@ -42,12 +44,12 @@ app.use((err, req, res, next) => {
   res.status(err.status || 500).json({ message: err.message });
 });
 
-//  DATABASE CONNECTION
+// DATABASE CONNECTION
 mongoose.connect(process.env.MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => {
     console.log('Connected to MongoDB');
-    app.listen(process.env.PORT, () => {
-      console.log(`Server running on port ${process.env.PORT}`);
+    app.listen(process.env.PORT || 5000, () => {
+      console.log(`Server running on port ${process.env.PORT || 5000}`);
     });
   })
   .catch(err => console.error('MongoDB connection error:', err));

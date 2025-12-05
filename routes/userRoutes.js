@@ -1,30 +1,18 @@
-// routes/userRoutes.js
+// routes/userRoutes.js - WITH AUTHENTICATION
 const express = require('express');
 const router = express.Router();
 const userController = require('../controllers/userController');
+const authenticateToken = require('../middleware/authMiddleware');
 
-
-// Define all users API routes
-
-
-// GET all users
-// URL: /api/users
+// Public routes
 router.get('/', userController.getAllUsers);
-// GET a single user by ID
-// URL: /api/users/:id
 router.get('/:id', userController.getUserById);
-// CREATE a new user
-// URL: /api/users
-router.post('/', userController.addUser);
-// UPDATE an existing user by ID
-// URL: /api/users/:id
-router.put('/:id', userController.updateUser);
-// DELETE a specific user by ID
-// URL: /api/users/:id
-router.delete('/:id', userController.deleteUser);
-// DELETE all users
-// URL: /api/users
-router.delete('/', userController.deleteAllUsers);
 
-// Export router properly
+
+// Protected routes - only edit and delete require authentication
+router.post('/', authenticateToken, userController.addUser); 
+router.put('/:id', authenticateToken, userController.updateUser);
+router.delete('/:id', authenticateToken, userController.deleteUser);
+router.delete('/', authenticateToken, userController.deleteAllUsers);
+
 module.exports = router;

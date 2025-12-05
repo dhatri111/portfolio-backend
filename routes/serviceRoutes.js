@@ -1,10 +1,6 @@
-// Import Express framework
+// routes/serviceRoutes.js - WITH AUTHENTICATION
 const express = require('express');
-
-// Create a new router instance
 const router = express.Router();
-
-// Import controller functions for handling service routes
 const {
   getAllServices,
   getServiceById,
@@ -13,35 +9,16 @@ const {
   deleteService,
   deleteAllServices
 } = require('../controllers/serviceController');
+const authenticateToken = require('../middleware/authMiddleware');
 
-
-// Define all Service API routes
-
-
-// GET all services
-// URL: /api/services
+// Public routes - anyone can view
 router.get('/', getAllServices);
-
-// GET a single service by ID
-// URL: /api/services/:id
 router.get('/:id', getServiceById);
 
-// CREATE a new service
-// URL: /api/services
-router.post('/', addService);
+// Protected routes - require authentication
+router.post('/', authenticateToken, addService);
+router.put('/:id', authenticateToken, updateService);
+router.delete('/:id', authenticateToken, deleteService);
+router.delete('/', authenticateToken, deleteAllServices);
 
-
-// UPDATE an existing service by ID
-// URL: /api/services/:id
-router.put('/:id', updateService);
-
-// DELETE a specific service by ID
-// URL: /api/services/:id
-router.delete('/:id', deleteService);
-
-// DELETE all services
-// URL: /api/services
-router.delete('/', deleteAllServices);
-
-// Export the router to be used in server.js
 module.exports = router;
